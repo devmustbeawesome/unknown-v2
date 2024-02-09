@@ -7,12 +7,24 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "lint": "eslint --ext \".ts,.vue\" --ignore-path .gitignore .",
+    "lintfix": "npm run lint --fix"
   },
   "dependencies": {
     "nuxt": "^3.10.1",
     "vue": "^3.4.15",
     "vue-router": "^4.2.5"
   },
-  "overrides": { "@parcel/watcher": "2.1.0" }
+  "overrides": {
+    "@parcel/watcher": "2.1.0"
+  },
+  "devDependencies": {
+    "@nuxtjs/eslint-config-typescript": "^12.1.0",
+    "@nuxtjs/eslint-module": "^4.1.0",
+    "@nuxtjs/stylelint-module": "^5.2.0",
+    "eslint": "^8.56.0",
+    "stylelint": "^16.2.1",
+    "stylelint-config-recommended-vue": "^1.5.0"
+  }
 }
