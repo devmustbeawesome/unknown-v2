@@ -1,11 +1,10 @@
 <script lang="ts" setup>
-import TestApi from '../components/TestApi.vue'
+const { data: test } = await useFetch('/api/test/')
 </script>
 
 <template>
   <div>
-    Page: main
-    <TestApi />
+    Api: {{ test }}
   </div>
 </template>
 
