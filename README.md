@@ -1,3 +1,4 @@
 # unknown-v2
 
-idk what will be here
+composable with cursor position
+background changes depending on cursor position
