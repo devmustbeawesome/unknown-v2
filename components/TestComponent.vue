@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-const { data: test } = await useFetch('/api/test/')
+const { data } = useFetch('/api/something')
 </script>
 
 <template>
   <div>
-    Api: {{ test }}
+    {{ data }}
   </div>
 </template>
 

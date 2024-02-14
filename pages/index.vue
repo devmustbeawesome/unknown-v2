@@ -1,11 +1,13 @@
 <script lang="ts" setup>
-import TestApi from '../components/TestApi.vue'
 </script>
 
 <template>
   <div>
     Page: main
-    <TestApi />
+    <TestComponent />
+    <NuxtLink to="/test">
+      Test
+    </NuxtLink>
   </div>
 </template>
 
