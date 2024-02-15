@@ -6,6 +6,7 @@ export default defineEventHandler(async () => {
   try {
     const data = await fs.readFile(fPath, 'utf8')
     const newData = JSON.parse(data) || {}
+    newData.sId = sessionId
     newData.last_seen = '' + Date.now()
     await fs.writeFile(fPath, JSON.stringify(newData))
   } catch (err:any) {
