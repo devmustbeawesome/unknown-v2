@@ -1,34 +1,49 @@
 import * as fs from 'fs'
 
-import { EventHandlerRequest, H3Event, parseCookies } from 'h3'
+import { type EventHandlerRequest, H3Event, parseCookies } from 'h3'
 
 export const useSession = (event: H3Event<EventHandlerRequest>) => {
   const cookies = parseCookies(event)
   const sessionId = cookies?.session
+  if (!sessionId) {
+    return undefined
+  }
   const fPath = `./sessions/${sessionId}`
-  const dataSession:any = {}
+  let dataSession:any = {}
+  try {
+    const data = fs.readFileSync(fPath, 'utf8')
+    dataSession = JSON.parse(data)
+  } catch (err:any) {
+    if (err instanceof SyntaxError || err.code === 'ENOENT') {
+      dataSession = {
+        s_id: sessionId,
+        last_seen: '' + Date.now()
+      }
+      fs.writeFileSync(fPath, JSON.stringify(dataSession))
+    } else {
+      throw err
+    }
+  }
   if (sessionId === undefined) { return false } else {
     return new Proxy(dataSession, {
       get: function (oTarget, sKey) {
-        try {
-          const data = fs.readFileSync(fPath, 'utf8')
-          oTarget = JSON.parse(data) || {}
-          dataSession.sId = sessionId
-          dataSession.last_seen = '' + Date.now()
-          fs.writeFileSync(fPath, JSON.stringify(dataSession))
-          return oTarget[sKey] || undefined
-        } catch (err:any) {
-          if (err.code === 'ENOENT') {
-            oTarget = {
-              sId: sessionId,
-              last_seen: '' + Date.now()
-            }
-            fs.writeFileSync(fPath, JSON.stringify(dataSession))
-            return oTarget[sKey] || undefined
-          } else {
-            throw err
-          }
-        }
+        // try {
+        //   const data = fs.readFileSync(fPath, 'utf8')
+        //   oTarget = JSON.parse(data)
+        //   return oTarget[sKey] || undefined
+        // } catch (err:any) {
+        //   if (err instanceof SyntaxError || err.code === 'ENOENT') {
+        //     oTarget = {
+        //       s_id: sessionId,
+        //       last_seen: '' + Date.now()
+        //     }
+        //     fs.writeFileSync(fPath, JSON.stringify(oTarget))
+        //     return oTarget[sKey] || undefined
+        //   } else {
+        //     throw err
+        //   }
+        // }
+        return oTarget[sKey] || undefined
       },
       set: function (oTarget, sKey, vValue) {
         try {

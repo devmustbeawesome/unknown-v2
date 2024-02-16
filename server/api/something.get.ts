@@ -1,4 +1,4 @@
 export default defineEventHandler(async (event) => {
   const session = await useSession(event)
-  return session.body
+  return session?.body ?? { someInput: '' }
 })

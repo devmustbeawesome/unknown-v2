@@ -1,21 +1,30 @@
 <script lang="ts" setup>
-const { data } = useFetch('/api/something')
-const formdata = reactive({ someinput: '' })
+// import type { FetchError } from 'ofetch'
+interface SomeData {
+  someInput: string
+}
+
+const someData = reactive(await $fetch<SomeData>(
+  '/api/something',
+  {
+    method: 'get'
+  }
+))
+// const formdata = reactive(savedformdata)
 const sendData = async () => {
   await $fetch('/api/something', {
     method: 'POST',
-    body: formdata
+    body: someData
   })
 }
 </script>
 
 <template>
   <div>
-    {{ data }}
     <form action="/something/" method="post">
-      <input v-model="formdata.someinput" type="text" name="someInput" @input="sendData">
-      <p>{{ formdata.someinput }}</p>
+      <input v-model="someData.someInput" type="text" name="someInput" @input="sendData">
     </form>
+    <p>{{ someData }}</p>
   </div>
 </template>
 

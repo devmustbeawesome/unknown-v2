@@ -4,10 +4,8 @@ export default defineNuxtConfig({
   modules: ['@nuxtjs/eslint-module', '@nuxtjs/stylelint-module'],
   eslint: {
     lintOnStart: false
-
   },
   stylelint: {
     lintOnStart: false
-
   }
 })
